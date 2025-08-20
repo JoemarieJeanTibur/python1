@@ -1,0 +1,26 @@
+'''
+A program that would accept one(1) integer value not greater than 20, compute the factorial of the value
+
+example:
+input(1..20): 5
+120
+
+'''
+
+from os import system
+system("cls")
+
+def factorial(n:int)->int:
+    if n==0:
+        return 1
+    else:
+        return n*factorial(n-1)
+        
+try:
+    n:int = int(input("Input(1..20)"))
+    #validate the output
+    if n>=0 and n<=20:
+        print(f"the factorial of {n} is {factorial(n)}")
+    
+except: 
+        print("Invalid Output")
