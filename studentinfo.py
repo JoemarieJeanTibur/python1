@@ -2,7 +2,6 @@
 Student information management
 '''
 from os import system
-import csv
 
 # ===========================
 # Student Class
@@ -19,7 +18,6 @@ class Student:
 # ===========================
 # Globals
 # ===========================
-filename: str = 'student.csv'
 slist: list = []  # local data container, not persistent
 
 
@@ -31,38 +29,12 @@ def displaymenu() -> None:
     print("\n" * 2)
     print(" STUDENT INFORMATION MANAGEMENT ".center(168, "="))
     print("1. Add Student".center(168))
-    print("2. Find Student".center(168))
-    print("3. Delete Student".center(168))
-    print("4. Update Student".center(168))
-    print("5. Display All Students".center(168))
-    print("6. Save to File".center(168))
-    print("7. Load from File".center(168))
-    print("0. Exit".center(168))
-    print("".center(168, "="))
-
-
-# ===========================
-# File Management
-# ===========================
-def load() -> None:
-    global slist
-    try:
-        with open(filename, newline="", mode="r") as f:
-            reader = csv.reader(f)
-            slist = [Student(*row) for row in reader]
-        print("Data loaded successfully.")
-    except FileNotFoundError:
-        print("No existing file found. Starting with empty list.")
-    input("Press Enter to continue...")
-
-
-def updater() -> None:
-    with open(filename, newline="", mode="w") as f:
-        writer = csv.writer(f)
-        for s in slist:
-            writer.writerow([s.idno, s.lastname, s.firstname, s.course, s.level])
-    print("Data saved successfully.")
-    input("Press Enter to continue...")
+    print("2. Find Student".center(170))
+    print("3. Delete Student".center(171))
+    print("4. Update Student".center(171))
+    print("5. Display All Students".center(178))
+    print("0. Exit".center(161))
+    print("".center(170, "="))
 
 
 # ===========================
@@ -102,14 +74,14 @@ def updaterecord(student: Student) -> bool:
 
 
 def displaylist() -> None:
-    print("\n ================ STUDENT LIST ================ ".center(168))
+    print("\n ================ STUDENT LIST ================ ")
     print("\n")
     if not slist:
         print("No records found.".center(168))
     else:
         for s in slist:
             print(f"{s.idno} | {s.lastname}, {s.firstname} | {s.course} | Level {s.level}")
-    input("\nPress Enter to continue...")
+    input("\nPress Enter to continue...".center(165))
 
 
 # ===========================
@@ -121,7 +93,7 @@ def input_id(prompt="ID Number: ") -> str:
         if val.isdigit():
             return val
         else:
-            print("ID must be numbers only. Try again.")
+            print("ID must be numbers only. Try again.".center(190))
 
 
 def input_text(prompt="Enter text: ") -> str:
@@ -130,7 +102,7 @@ def input_text(prompt="Enter text: ") -> str:
         if val:
             return val
         else:
-            print("This field cannot be empty. Try again.")
+            print("This field cannot be empty. Try again.".center(165))
 
 
 def input_level(prompt="Level: ") -> str:
@@ -139,7 +111,7 @@ def input_level(prompt="Level: ") -> str:
         if val.isdigit():
             return val
         else:
-            print("Level must be numbers only. Try again.")
+            print("Level must be numbers only. Try again.".center(190))
 
 
 # ===========================
@@ -149,70 +121,64 @@ def main() -> None:
     option: str = ""
     while option != '0':
         displaymenu()
-        option = input("Select option: ")
+        option = input("Select option: ".center(170))
 
         match option:
-            case '1':  # Add
-                idno = input_id("ID Number: ")
-                lastname = input_text("Last Name: ")
-                firstname = input_text("First Name: ")
-                course = input_text("Course: ")
-                level = input_level("Level: ")
+            case '1':  # Add 
+                idno = input_id("ID Number: ".center(165))
+                lastname = input_text("Last Name: ".center(165))
+                firstname = input_text("First Name: ".center(165))
+                course = input_text("Course: ".center(161))
+                level = input_level("Level: ".center(161))
 
                 student = Student(idno, lastname, firstname, course, level)
                 if addrecord(student):
-                    print("Student added successfully.")
+                    print("Student added successfully.".center(165))
                 else:
-                    print("Duplicate ID. Student not added.")
-                input("Press Enter to continue...")
+                    print("Duplicate ID. Student not added.".center(165))
+                input("Press Enter to continue...".center(165))
 
             case '2':  # Find
-                idno = input_id("Enter ID to find: ")
+                idno = input_id("Enter ID to find: ".center(165))
                 s = findrecord(idno)
                 if s:
                     print(f"Found: {s.idno} - {s.lastname}, {s.firstname} ({s.course}, Level {s.level})")
                 else:
-                    print("Student not found.")
-                input("Press Enter to continue...")
+                    print("Student not found.".center(165))
+                input("Press Enter to continue...".center(165))
 
             case '3':  # Delete
-                idno = input_id("Enter ID to delete: ")
+                idno = input_id("Enter ID to delete: ".center(165))
                 if deleterecord(idno):
-                    print("Record deleted.")
+                    print("Record deleted.".center(165))
                 else:
-                    print("Student not found.")
-                input("Press Enter to continue...")
+                    print("Student not found.".center(165))
+                input("Press Enter to continue...".center(165))
 
             case '4':  # Update
-                idno = input_id("Enter ID to update: ")
-                lastname = input_text("New Last Name: ")
-                firstname = input_text("New First Name: ")
-                course = input_text("New Course: ")
-                level = input_level("New Level: ")
+                idno = input_id("Enter ID to update: ".center(168)) 
+                lastname = input_text("New Last Name: ".center(168))
+                firstname = input_text("New First Name: ".center(168))
+                course = input_text("New Course: ".center(168))
+                level = input_level("New Level: ".center(168))
 
                 student = Student(idno, lastname, firstname, course, level)
                 if updaterecord(student):
-                    print("Record updated successfully.")
+                    print("Record updated successfully.".center(165))
                 else:
-                    print("Student not found.")
-                input("Press Enter to continue...")
+                    print("Student not found.".center(165))
+                input("Press Enter to continue...".center(165))
 
             case '5':  # Display
                 displaylist()
 
-            case '6':  # Save
-                updater()
-
-            case '7':  # Load
-                load()
-
             case '0':  # Exit
-                print("Exiting program...")
+                print("Exiting program...".center(165))
                 break
 
             case _:  # Invalid
-                print("Invalid option.")
-                input("Press Enter to continue...")
+                print("Invalid option.".center(165))
+                input("Press Enter to continue...".center(165))
 
 
 # ===========================
